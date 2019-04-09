@@ -1,0 +1,76 @@
+// String extension
+
+extension String {
+    
+    // Check email validation
+    
+    func isValidEmailAddress() -> Bool {
+        
+        var returnValue = true
+        
+        let emailRegEx = "[A-Z0-9a-z.-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,3}"
+        
+        do { let regex = try NSRegularExpression(pattern: emailRegEx)
+            
+            let nsString = self as NSString
+            
+            let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
+            
+            if results.count == 0
+            {
+                returnValue = false
+            }
+            
+        } catch let error as NSError {
+            print("invalid regex: \(error.localizedDescription)")
+            returnValue = false
+        }
+        
+        return  returnValue
+    }
+    
+    // check Strong password Length = 8 , One Alphabate , One Special Character
+    
+    func isPasswordValid() -> Bool{
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[a-z])(?=.*[$@$#!%*?&])[A-Za-z\\d$@$#!%*?&]{8,}")
+        return passwordTest.evaluate(with: self)
+    }
+    
+    // password Length = 8 , 2 UpperCase letters in Password , One Special Character in Password , Two Number in Password , Three letters of lowercase in password.
+    // 
+    func isPasswordValidComplex() -> Bool{
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$")
+        return passwordTest.evaluate(with: self)
+    }
+    
+    // Convert String To NSDictionary 
+
+  func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                let jsonDict =  try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions(rawValue: UInt(0)))
+                return jsonDict as? [String : Any]
+            } catch {
+                //print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    
+ // String to DateString to String(From 24 Hours to 12 hoursFormate)
+
+func convertDateformate_24_to12_andReverse (str_date : String , strdateFormat: String, inputFormat: String) -> String
+    {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = inputFormat
+        dateFormatter.timeZone = NSTimeZone(forSecondsFromGMT: 0) as TimeZone!
+        
+        let date = dateFormatter.date(from: str_date)
+        dateFormatter.dateFormat = strdateFormat
+        let datestr = dateFormatter.string(from: date!)
+        return datestr
+    }
+ 
+ 
+    
+}
