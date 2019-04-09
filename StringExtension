@@ -70,7 +70,45 @@ func convertDateformate_24_to12_andReverse (str_date : String , strdateFormat: S
         let datestr = dateFormatter.string(from: date!)
         return datestr
     }
- 
- 
     
+    // Convert String to Date 
+
+func toDate(withFormat format: String = "yyyy-MM-dd HH:mm:ss")-> Date?{
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Tehran")
+        dateFormatter.locale = Locale(identifier: "fa-IR")
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.dateFormat = format
+        let date = dateFormatter.date(from: self)
+
+        return date
+
+    }
+    
+    
+    // Convert String to Base64
+ func base64Encoded() -> String? {
+        if let data = self.data(using: .utf8) {
+            return data.base64EncodedString()
+        }
+        return nil
+    }
+     // Convert Base64 to String
+
+//: ### Base64 decoding a string
+    func base64Decoded() -> String? {
+        if let data = Data(base64Encoded: self, options: .ignoreUnknownCharacters) {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil   
+    
+   
 }
+
+// How to use 
+You can use these all methods with String as Follows 
+let str : String = ""
+str.isValidEmailAddress()
+convertToDictionary(str)
+
